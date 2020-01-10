@@ -1,0 +1,394 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>reveal.js</title>
+
+		<link rel="stylesheet" href="css/reset.css">
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/white.css">
+
+		<!-- Theme used for syntax highlighting of code -->
+		<link rel="stylesheet" href="lib/css/monokai.css">
+
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<section>
+					<h1>Artemis</h1>
+					<h4>Solving the secure platform problem</h4>
+					<h4>for the Helios e-voting system</h4>
+					<br/>
+					<p>Bachelor thesis - Mike Boss</p>
+				</section>
+				<section>
+					<section>
+						<h3>Welcome</h3>
+						<h4>to</h4>
+						<h1>Mythology 101!</h1>
+					</section>
+					<section data-transition="slide-in none-out">
+						<p>Zeus</p>
+						<p>Apollo</p>
+						<p>Helios</p>
+						<p>Artemis</p>
+						<p>Belenios</p>
+					</section>
+					<section>
+						<h2>Myth of</h2>
+						<h2>secure e-voting</h2>
+					</section>
+				</section>
+				<section>
+					<section>
+						<h2>Security?</h2>
+						<p class="fragment">Verifiability</p>
+						<div class="fragment">
+							<p>+</p>
+							<p>Privacy</p>
+						</div>
+					</section>
+					<section>
+						<h2>E-voting system</h2>
+						<ol>
+							<li class="fragment highlight-current-blue">Vote creation</li>
+							<li class="fragment highlight-current-blue">Vote submission</li>
+							<li class="fragment highlight-current-blue">Tally</li>
+						</ol>
+					</section>
+					<section>
+						<p style="color: #1b91ff">3. Tally</p>
+						<h3>Homomorphic tallying</h3>
+						<svg width="500" height="200">
+							<text font-size="25" x="250" y="100">$ \{1\}_k + \{0\}_k + \{1\}_k= \{2\}_k $</text>
+						</svg>
+						<p>ZKP: 0 or 1</p>
+					</section>
+					<section>
+						<p style="color: #1b91ff">3. Tally</p>
+						<h2>Re-encryption Mix-net</h2>
+						<div class="fragment">
+							<svg width="1000" height="50">
+								<text font-size="20" x="500" y="25">$ 1 \rightarrow 9vHIdy98I3 \rightarrow ZFTXcqIoxO $</text>
+							</svg>	
+							<svg width="1000" height="50">
+								<text font-size="20" x="500" y="25">$ 1 \rightarrow  \,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\, \{1\}_k^1 \,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\, \rightarrow \{1\}_k^2 $</text>
+							</svg>
+							<div class="fragment">
+								<svg width="700" height="150">
+									<text font-size="20" x="350" y="75">$ 9vHIdy98I3 + \{0\}_k = ZFTXcqIoxO $</text>
+								</svg>				
+							</div>
+						</div>
+					</section>
+					<section>
+						<h2>Re-encryption Mix-net</h2>
+						<a href="https://www.researchgate.net/figure/Re-Encryption-Mixnet-Source-modified-from-SP06_fig2_221947500" title="Re-encryption mix-net" target="_blank"><img style="max-width: 80%; border: 0; box-shadow: none" src="reencryption-mixnet.png"/></a>
+					</section>
+				</section>
+				<section>
+					<section>
+						<h3>First there was</h3>
+						<a href="https://heliosvoting.org/" title="Helios logo" target="_blank"><img style="border: 0; box-shadow: none; max-width: 60%;" src="helios-logo.png"/></a>
+					</section>
+					<section>
+						<h3>Helios</h3>
+						<table>
+							<tr>
+								<td style="color: #1b91ff">1. Vote creation</td>
+								<td>Benaloh Challenge</td>
+							</tr>
+							<tr style="opacity: 0.5;">
+								<td style="color: #1b91ff">2. Vote submission</td>
+								<td>Just send</td>
+							</tr>
+							<tr style="opacity: 0.5;">
+								<td style="color: #1b91ff">3. Tally</td>
+								<td>Homomorphic tallying</td>
+							</tr>
+						</table>
+					</section>
+					<section>
+						<h3>Benaloh challenge</h3>
+						<p style="font-size: 1.6rem;">(Voter-initiated-audit)</p>
+						<svg width="200" height="150">
+							<text font-size="20" x="100" y="75">$ \{Alice\}_k $</text>
+						</svg>
+						<table>
+							<tr>
+								<td><button style="background-color: #21d11b; box-shadow: none; border: 0; min-width: 7rem; min-height: 5rem; color: white; font-size: 2rem; margin: 1rem;">Cast</button></td>
+								<td><button style="background-color: #d14f1b; box-shadow: none; border: 0; min-width: 7rem; min-height: 5rem; color: white; font-size: 2rem; margin: 1rem">Audit</button></td>
+							</tr>
+						</table>
+						<div class="fragment">
+							<table>
+								<tr>
+									<td><button style="background-color: #21d11b; box-shadow: none; border: 0; min-width: 7rem; min-height: 5rem; color: white; font-size: 2rem; margin: 1rem;">Cast</button></td>
+									<td><button style="background-color: #d14f1b; box-shadow: none; border: 0; min-width: 7rem; min-height: 5rem; color: white; font-size: 2rem; margin: 1rem">Audit</button></td>
+								</tr>
+							</table>
+							<p>...</p>
+						</div>
+					</section>
+					<section>
+						<h2>Booth audit => Security ✅</h2>
+						<h2 class="fragment">Local audit => Security ❌</h2>
+					</section>
+					<section class="fig-container"
+						data-fig-id="fig-collision-detection"
+						data-file="diagram.html">
+					</section>
+				</section>
+				<section>
+					<section>
+						<h1>ᗩᖇTEᗰIS</h1>
+					</section>
+					<section data-transition="slide-in none-out">
+						<h2>Players</h2>
+						<a href="https://www.indiedb.com/games/kilgazar/images/character-selection-screen" title="Character Selection Screen - Indie DB" target="_blank"><img src="character-selection.png" alt="Character Selection Screen" /></a>
+					</section>
+					<section data-transition="none-in slide-out">
+						<h2>Players</h2>
+						<ol>
+							<li class="fragment highlight-current-blue" style="margin-bottom: 1rem;">Voting terminal 💻</li>
+							<li class="fragment highlight-current-blue" style="margin-bottom: 1rem;">Active voting assistant 📲</li>
+							<li class="fragment highlight-current-blue" style="margin-bottom: 3rem; opacity: 0.6;">Voting assistant(s) 📱</li>
+							<li class="fragment highlight-current-blue" style="margin-bottom: 1rem;">Tallying authority</li>
+							<li class="fragment highlight-current-blue" style="margin-bottom: 1rem;">Registrar</li>
+						</ol>
+					</section>
+					<section>
+						<h3 style="color: #1b91ff">1. Vote creation</h3>
+						<ol>
+							<li><strong>Audit on multiple devices</strong> => Security</li>
+							<li><strong>Interactive creation of indirection</strong> => Privacy</li>
+						</ol>
+					</section>
+					<section>
+						<h3>Indirection</h3>
+						<div style="display: flex; flex-flow: row;">
+							<div style="display: flex; flex-flow: column; margin: 2rem">
+								<div>💻</div>
+								<table style="justify-content: center; table-layout: fixed; width: 25rem;">
+									<tr>
+										<td>Alice</td>
+										<td>↔</td>
+										<td><div style="background-color: green; width: 2rem; height: 2rem; align-self: center;"></div></td>
+									</tr>
+									<tr>
+										<td>Bob</td>
+										<td>↔</td>
+										<td><div style="background-color: red; width: 2rem; height: 2rem; align-self: center;"></div></td>
+									</tr>
+									<tr>
+										<td>Charlie</td>
+										<td>↔</td>
+										<td><div style="background-color: blue; width: 2rem; height: 2rem; align-self: center;"></div></td>
+									</tr>
+								</table>
+							</div>
+							<div style="display: flex; flex-flow: column; margin: 2rem">
+								<div>📲</div>
+								<table style="justify-content: center; table-layout: fixed; width: 25rem;">
+									<tr>
+										<td><div style="background-color: blue; width: 2rem; height: 2rem; align-self: center;"></div></td>
+										<td style="align-self: center;">↔</td>
+										<td>I7ngr2d</td>
+									</tr>
+									<tr>
+										<td><div style="background-color: red; width: 2rem; height: 2rem; align-self: center;"></div></td>
+										<td style="align-self: center;">↔</td>
+										<td>l02JfTp</td>
+									</tr>
+									<tr>
+										<td><div style="background-color: green; width: 2rem; height: 2rem; align-self: center;"></div></td>
+										<td style="align-self: center;">↔</td>
+										<td>d38Gnd</td>
+									</tr>
+								</table>
+							</div>
+						</div>
+					</section>
+					<section>
+						<p style="color: red;">Problem</p>
+						<p>💻 can tell which ballot 📲 submitted</p>
+						<br/>
+						<div class="fragment">
+							<p style="color: green">Solution</p>
+							<h3>Re-encryption</h3>
+							<ul>
+								<li>📲 for privacy</li>
+								<li>🖥 for receipt-freeness</li>
+							</ul>
+						</div>
+					</section>
+					<section>
+						<h3>Re-encryption</h3>
+						<div style="display: flex; flex-direction: row;">
+							<div style="margin-right: 5rem;">
+								<p>1. 💻 → 🖥 → 📲:</p>
+								<table style="justify-content: center; table-layout: fixed; width: 20rem;">
+									<tr>
+										<td>
+											<div>
+												<svg width="70" height="70">
+													<text font-size="20" x="35" y="35">$ \{1\}_k^1 $</text>
+												</svg>
+											</div>
+										</td>
+										<td>↔</td>
+										<td><div style="background-color: green; width: 2rem; height: 2rem; align-self: center;"></div></td>
+									</tr>
+									<tr>
+										<td>
+											<div>
+												<svg width="70" height="70">
+													<text font-size="20" x="35" y="35">$ \{0\}_k^1 $</text>
+												</svg>
+											</div>
+										</td>
+										<td>↔</td>
+										<td><div style="background-color: red; width: 2rem; height: 2rem; align-self: center;"></div></td>
+									</tr>
+								</table>
+							</div>
+							<div style="margin-right: 5rem;">
+								<p>2. 📲 → 🖥</p>
+								<svg width="70" height="70">
+									<text font-size="20" x="35" y="35">$ \{0\}_k^2 $</text>
+								</svg>
+							</div>
+							<div>
+								<p>3. 🖥 → 💻</p>
+								<svg width="70" height="70">
+									<text font-size="20" x="35" y="35">$ \{0\}_k^3 $</text>
+								</svg>
+							</div>
+						</div>
+					</section>
+					<section>
+						<h3 style="color: #1b91ff">2. Vote submission</h3>
+					</section>
+					<section>
+						<h3>Two authorites</h3>
+						<ul>
+							<li>Against ballot stuffing</li>
+							<li>Against malicious voting terminal</li>
+						</ul>
+					</section>
+					<section>
+						<h3>Registrar</h3>
+						<p>sends to all voters</p>
+						<ol>
+							<li>Cast codes</li>
+							<li>Lock-in code</li>
+						</ol>
+					</section>
+					<section>
+						<h3>Submitting a vote</h3>
+						<p>Enter <strong>cast code</strong> => ✅? => Enter <strong>lock-in code</strong></p>
+					</section>
+					<section>
+						<h3>Why ✅?</h3>
+						<p style="color: red;">💻 switches ballot with entered cast code</p>
+						<p class="fragment" style="color: green">Enter lock-in code only if same ballot</p>
+					</section>
+					<section>
+						<h3 style="color: #1b91ff">3. Tally</h3>
+						<p><strong>Mix-net</strong> => No change</p>
+						<p><strong>Homomorphic tally</strong> => ZKP's invalid ❌</p>
+						<p class="fragment">Groth-Sahai proofs re-randomizable ✅</p>
+					</section>
+				</section>
+				<section>
+					<section>
+						<h1>Conclusion</h1>
+					</section>
+					<section>
+						<h2>Artemis</h2>
+						<br/>
+						<table>
+							<tr>
+								<td>
+									<h5>PrivApollo</h5>
+									<p>Multiple devices</p>
+									<p>Indirection</p>
+								</td>
+								<td></td>
+								<td></td>
+								<td>
+									<h5>BeleniosRF</h5>
+									<p>Re-encryption</p>
+									<p>Receipt-freeness</p>
+								</td>
+							</tr>
+						</table>
+					</section>
+					<section>
+						<h2>Protocol</h2>
+						<ul>
+							<div style="color: green">
+								<li>Security + Privacy</li>
+								<li>Receipt-freeness</li>
+								<li>More election modes than BeleniosVS</li>
+								<li>Easier to implement</li>
+							</div>
+							<br/>
+							<div style="color: red">
+								<li>Benaloh Challenge</li>
+							</div>
+						</ul>
+					</section>
+					<section>
+						<h2>Implementation</h2>
+						<ul>
+							<div style="color: green;">
+								<li>Functional</li>
+							</div>
+							<br/>
+							<div style="color: red;">
+								<li>Helios code base</li>
+								<li>Not finished</li>
+							</div>
+						</ul>
+					</section>
+				</section>
+			</div>
+		</div>
+
+		<script src="js/reveal.js"></script>
+
+		<script>
+			// More info about config & dependencies:
+			// - https://github.com/hakimel/reveal.js#configuration
+			// - https://github.com/hakimel/reveal.js#dependencies
+			Reveal.initialize({
+				controls: false,
+				hash: true,
+				transition: 'slide',
+				transitionSpeed: 'normal',
+
+				dependencies: [
+					{ src: 'plugin/markdown/marked.js' },
+					{ src: 'plugin/markdown/markdown.js' },
+					{ src: 'plugin/notes/notes.js', async: true },
+					{ src: 'plugin/highlight/highlight.js', async: true },
+					{ src: 'https://d3js.org/d3.v4.min.js' },
+					{ src: 'node_modules/reveal.js-d3js/d3js.js' },
+					{ src: 'plugin/mathsvg/math.js', async: true },
+				]
+			});
+		</script>
+	</body>
+</html>

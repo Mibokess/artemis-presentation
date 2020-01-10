@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<head>
+    <style>
+        body {
+      width: 100%;
+      height: 100%;
+    }
+
+    </style>
+  <link rel="stylesheet" href="plugin/diagram/revealjs-diagram.css">
+</head>
+<body>
+  <script src="https://d3js.org/d3.v3.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+  <script src="plugin/diagram/revealjs-diagram.js"></script>
+  <script>
+
+    var treeData = {
+      name: 'Helios',
+      x0: window.diagram.height / 2,
+      y0: 0,
+      children: []
+    };
+
+    function addZeus() {
+        window.diagram.addItem('Zeus', 'Helios', treeData)();
+        window.diagram.addItem('helios-server-mixnet', 'Zeus', treeData)();
+    }
+
+    function removeZeus() {
+        window.diagram.removeItem('Zeus', treeData)();
+        window.diagram.removeItem('helios-server-mixnet', treeData)();
+    }
+
+    function addSecurity() {
+        window.diagram.addItem('Apollo', 'Helios', treeData)();
+        window.diagram.addItem('Belenios', 'Helios', treeData)();
+    }
+    
+    function removeSecurity() {
+        window.diagram.removeItem('Apollo', treeData)();
+        
+        window.diagram.removeItem('Belenios', treeData)();
+    }
+
+    function addPrivacy() {
+        window.diagram.addItem('PrivApollo', 'Apollo', treeData)();
+        window.diagram.addItem('BeleniosRF', 'Belenios', treeData)();
+        window.diagram.addItem('BeleniosVS', 'BeleniosRF', treeData)();
+    }
+    
+    function removePrivacy() {
+        window.diagram.removeItem('PrivApollo', treeData)();
+        window.diagram.removeItem('BeleniosRF',  treeData)();
+        window.diagram.removeItem('BeleniosVS',  treeData)();
+    }
+
+    function addArtemis() {
+        window.diagram.addItem('Artemis', 'BeleniosVS', treeData)();
+        window.diagram.addLink('PrivApollo', 'Artemis', treeData)();
+        window.diagram.addLink('helios-server-mixnet', 'Artemis', treeData)();
+    }
+
+    function removeArtemis() {
+        window.diagram.removeItem('Artemis', treeData)();
+        window.diagram.removeLink('BeleniosVS', 'Artemis', treeData)();
+        window.diagram.removeLink('PrivApollo', 'Artemis', treeData)();
+        window.diagram.removeLink('helios-server-mixnet', 'Artemis', treeData)();
+    }
+
+    var _transitions = [
+        addSecurity,
+        addPrivacy,
+        addZeus,
+        addArtemis
+    ];
+
+    var _inverse_transitions = [
+        removeSecurity,
+        removePrivacy,
+        removeZeus,
+        removeArtemis
+    ];
+
+    // register the diagram
+    window.diagram.register('intro', () => {
+        window.diagram.init(treeData);
+    });
+
+        const targetNode = document.querySelector('body');
+        const config = { attributes: true, childList: true, subtree: true };
+
+        const callback = function(mutationsList, observer) {
+            for(let mutation of mutationsList) {
+                console.log('check nodes');
+
+                let importantNodes = [].slice.call(document.querySelectorAll('g')).filter(g => g.children[1] ? g.children[1].textContent.match(/HELIOS$|BELENIOSVS|ARTEMIS|PRIVAPOLLO/g) : false);
+                
+                if (importantNodes && importantNodes.length > 0) {
+                    console.log(importantNodes)
+                    importantNodes.forEach(importantNode => {
+                        importantNode.children[0].style.fill = 'black';
+                        importantNode.children[1].style.fill = 'white';
+                    });
+                }
+            }
+        };
+
+        const observer = new MutationObserver(callback);
+
+        observer.observe(targetNode, config);
+  </script>
+</body>
