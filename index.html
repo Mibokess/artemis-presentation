@@ -44,10 +44,19 @@
 						<p>Helios</p>
 						<p>Artemis</p>
 						<p>Belenios</p>
+
+						<aside class="notes">
+							Let's start with an introductory example. What do all these names have in common? Yes, you are correct! They all are e-voting systems.
+							Mythical gods would also have been an accepted answer but today we are here to talk about the ...
+						</aside>
 					</section>
 					<section>
 						<h2>Myth of</h2>
 						<h2>secure e-voting</h2>
+
+						<aside class="notes">
+							Hopefully we can shed light on this myth. Is it achievable? How far are we? Is it still a myth or already reality?
+						</aside>
 					</section>
 				</section>
 				<section>
@@ -58,6 +67,13 @@
 							<p>+</p>
 							<p>Privacy</p>
 						</div>
+
+						<aside class="notes">
+							Before we talk about e-voting systems we need to consider what secure means in this context.
+							An e-voting system has to be verifiable; meaning that a voter can be certain that their vote was correctly received and tallied.
+							A lot of research has been done in this area; less so for the second property such a system needs to achieve: privacy. 
+							As in today's paper ballot systems e-voting should preserve the privacy of the vote. 
+						</aside>
 					</section>
 					<section>
 						<h2>E-voting system</h2>
@@ -66,6 +82,14 @@
 							<li class="fragment highlight-current-blue">Vote submission</li>
 							<li class="fragment highlight-current-blue">Tally</li>
 						</ol>
+						<aside class="notes">
+							Let's first consider how a generic e-voting system works.
+							The process can be separated into three main steps.
+							Vote creation is everything up to the encryption of the voter's choice.
+							The voter needs to send their vote to the server, also called the bulletin board.
+							The third and final step is tallying up all the votes into their total scores. 
+							There are two main ways to tally the votes used in modern e-voting systems.
+						</aside>
 					</section>
 					<section>
 						<p style="color: #1b91ff">3. Tally</p>
@@ -74,6 +98,17 @@
 							<text font-size="25" x="250" y="100">$ \{1\}_k + \{0\}_k + \{1\}_k= \{2\}_k $</text>
 						</svg>
 						<p>ZKP: 0 or 1</p>
+
+						<aside class="notes">
+							In both types we have an underlying homomorphic encryption system.
+							Additive homomorphic encryption has the homomorphic property that two ciphertexts can be added together while encrypted resulting in the encrypted sum.
+							This property is used in homomorphic tallying as seen on the slide.
+							The three ciphertexts, encoding a 0 or a 1, are added together resulting in the final encrypted tally of 2.
+							For homomorphic tallying to work the voter has to provide zero-knowledge proofs that they correctly encrypted a valid choice.
+							Else one could encode a 5 leading to a vote 5 times more powerful than a honest voter.
+							In this case the voter proofs that they encrypted either a 0 or a 1.
+							Because of the needed proofs homomorphic tallying cannot be used for more complex election modes such as ranked voting as there are no simple ways to encode the ranking in a provable format. 
+						</aside>
 					</section>
 					<section>
 						<p style="color: #1b91ff">3. Tally</p>
@@ -91,16 +126,38 @@
 								</svg>				
 							</div>
 						</div>
+
+						<aside class="notes">
+							The second tally type is a re-encryption mix-net.
+							As the name suggests the mix-net uses re-encryption which is a property derived from the homomorphic nature of the underlying encryption system.
+							If we encrypt the 1 into a ciphertext we can re-encrypt the ciphertext into a completely new ciphertext still encrypting the same 1.
+							This can be seen below by the upper-index showing how many times a plaintext has been encrypted or re-encrypted respectively.
+							The re-encrypted ciphertext is directly decryptable.
+							Why this works can easily be seen by observing the additive homomorphic property we have seen before.
+							If we take the ciphertext encrypting our 1 we can add an encrypted 0 to it resulting a new ciphertext encrypting the same value.
+						</aside>
 					</section>
 					<section>
 						<h2>Re-encryption Mix-net</h2>
 						<a href="https://www.researchgate.net/figure/Re-Encryption-Mixnet-Source-modified-from-SP06_fig2_221947500" title="Re-encryption mix-net" target="_blank"><img style="max-width: 80%; border: 0; box-shadow: none" src="reencryption-mixnet.png"/></a>
+						
+						<aside class="notes">
+							Using re-encryption we just put our ballots through several mix-nets in each re-encrypting the ballots to obfuscate any relation to the older ones.
+							In the end we have the encryptions of our ballots in some permuted order known to nobody.
+
+							We have now seen how a generic modern e-voting system works.
+						</aside>
 					</section>
 				</section>
 				<section>
 					<section>
 						<h3>First there was</h3>
 						<a href="https://heliosvoting.org/" title="Helios logo" target="_blank"><img style="border: 0; box-shadow: none; max-width: 60%;" src="helios-logo.png"/></a>
+					
+						<aside class="notes">
+							Let's see how Helios, one of the most well-known e-voting systems, uses these ideas.
+							Helios has been used in IACR election and is used throughout academia because of it's simplicity.
+						</aside>
 					</section>
 					<section>
 						<h3>Helios</h3>
@@ -111,13 +168,21 @@
 							</tr>
 							<tr style="opacity: 0.5;">
 								<td style="color: #1b91ff">2. Vote submission</td>
-								<td>Just send</td>
+								<td>Login & send</td>
 							</tr>
 							<tr style="opacity: 0.5;">
 								<td style="color: #1b91ff">3. Tally</td>
 								<td>Homomorphic tallying</td>
 							</tr>
 						</table>
+
+						<aside class="notes">
+							This simplicity comes from the main concepts underlying the implementation.
+							For tallying Helios uses the homomorphic tallying we have seen before.
+							The vote submission is just sending the encrypted vote to the server via HTTPS.
+							The vote creation step is what differentiates Helios from comparable systems.
+							The Benaloh Challenge is much simpler than most other ideas for securing the ballot.
+						</aside>
 					</section>
 					<section>
 						<h3>Benaloh challenge</h3>
@@ -140,28 +205,61 @@
 							</table>
 							<p>...</p>
 						</div>
+
+						<aside class="notes">
+							The Benaloh Challenge is also called voter-initiated-audit which directly explains the idea of the challenge.
+							After encrypting their choice, Alice in this example, the voter is given the choice to either submit, called cast, or audit their ballot.
+							If audit is selected the process starts anew. This may be repeated multiple times.
+							A random attacker has a 50% chance in every step to guess what the voter will do meaning that it is very unlikely over multiple steps to not be detected. 
+							Even though this is challenge is very simple it has some underlying flaws in Helios.
+						</aside>
 					</section>
 					<section>
 						<h2>Malicious device</h2>
 						<br/>
 						<h3>Booth audit => Security ✅</h3>
 						<h3 class="fragment">Local audit => Security ❌</h3>
+
+						<aside class="notes">
+							In a physical booth setting such as a poll station a malicious voting device is correctly detected.
+							The device has to physically commit to the encryption by printing it before the choice is shown.
+							The challenge does however provide no security in a local setting, for example on your laptop.
+							The laptop can show you whatever it wants while submitting a totally different ballot.
+						</aside>
 					</section>
-					<!--<section class="fig-container"
+					<section class="fig-container"
 						data-fig-id="fig-collision-detection"
 						data-file="diagram.html">
-					</section>-->
-					<section>
-						<img src="diagram.png" style="border: 0; box-shadow: none;"/>
+						
+						<aside class="notes">
+							Helios has been extended to fix this problem by two systems, Apollo and Belenios.
+							Both of these systems provide verifiability but not the second property we want, privacy.
+							Fortunately both have been extended to provide privacy, Apollo quite obviously with PrivApollo, and Belenios with BeleniosVS.
+							This thesis combines both PrivApollo and BeleniosVS into a system which is easier to implement, which has been done as part of this thesis.
+							As you may remember Helios uses homomorphic tallying but for the implementation we need to use a mix-net.
+							Therefore we need a third extension which extends Helios by mix-net based tallying.
+							The three systems are combined into the protocol of this thesis called Artemis.
+						</aside>
 					</section>
+					<!--<section>
+						<img src="diagram.png" style="border: 0; box-shadow: none;"/>
+					</section>-->
 				</section>
 				<section>
 					<section>
 						<h1>ᗩᖇTEᗰIS</h1>
+
+						<aside class="notes">
+							Let's see how Artemis achieves verifiability and privacy in the case of malicious voting devices.
+						</aside>
 					</section>
 					<section data-transition="slide-in none-out">
 						<h2>Players</h2>
 						<a href="https://www.indiedb.com/games/kilgazar/images/character-selection-screen" title="Character Selection Screen - Indie DB" target="_blank"><img src="character-selection.png" alt="Character Selection Screen" /></a>
+						
+						<aside class="notes">
+							First we need to see who the players interacting with each other in Artemis are.
+						</aside>
 					</section>
 					<section data-transition="none-in slide-out">
 						<h2>Players</h2>
@@ -172,6 +270,15 @@
 							<li class="fragment highlight-current-blue" style="margin-bottom: 1rem;">Tallying authority</li>
 							<li class="fragment highlight-current-blue" style="margin-bottom: 1rem;">Registrar</li>
 						</ol>
+
+						<aside class="notes">
+							Artemis has three types of devices used by the voter and two authorities.
+							The voting terminal is the main voting device used, a laptop for example.
+							The active voting assistant is a second device actively involved in the protocol.
+							The voter may optionally add multiple passive voting assistants that check the two active devices.
+							The tallying authority tallys up the votes on the bulletin board and release the result.
+							The registrar sends the voter some information before the election over a secure channel, such as the postal system. 
+						</aside>
 					</section>
 					<section>
 						<h3 style="color: #1b91ff">1. Vote creation</h3>
@@ -179,6 +286,11 @@
 							<p><strong>Security: </strong> Audit on multiple devices</p>
 							<p><strong>Privacy:</strong> Interactive creation of indirection</p>
 						</ol>
+
+						<aside class="notes">
+							To provide security Artemis uses multiple devices for the audit which means that as long as one device is honest the others will be detected.
+							For privacy an indirection is interactively created between the two active devices.
+						</aside>
 					</section>
 					<section>
 						<h3>Indirection</h3>
@@ -224,6 +336,14 @@
 								</table>
 							</div>
 						</div>
+
+						<aside class="notes">
+							The indirection is a mapping between the choices and colors as seen on the left.
+							The voting terminal creates this mapping.
+							The active voting assistant receives the same colors and encrypted choices in permuted order.
+							The voter selects the color corresponding to the choice they want on the active voting assistant.
+							Therefore neither device knows what the voter selected. 
+						</aside>
 					</section>
 					<section>
 						<p style="color: red;">Problem</p>
@@ -237,6 +357,12 @@
 								<p>🖥 for receipt-freeness</p>
 							</ul>
 						</div>
+
+						<aside class="notes">
+							It is not as simple because we have the problem that the voting terminal can tell which ballot was submitted because the ciphertext is the same.
+							We re-encrypt the ballot on the active voting assistant to obfuscate any connection solving this problem.
+							As an addition the server also re-encrypts the ballot which gives receipt-freeness meaning that the voter cannot prove how they voted.
+						</aside>
 					</section>
 					<section>
 						<h3>Re-encryption</h3>
@@ -281,9 +407,21 @@
 								</svg>
 							</div>
 						</div>
+
+						<aside class="notes">
+							Let's see how this re-encryption looks in the protcol.
+							The upper-index shows how many times a ciphertext has been encrypted or re-encrypted respectively.
+							The voting terminal creates the mapping and the active voting assistant receives it.
+							The active voting assistant sends the chosen re-encrypted ballot to the server.
+							The server re-encrypts it again and sends it back to the voting terminal after which we are done with the vote creation.
+						</aside>
 					</section>
 					<section>
 						<h3 style="color: #1b91ff">2. Vote submission</h3>
+
+						<aside class="notes">
+							For submitting the vote you may remember that Artemis has two authorities.
+						</aside>
 					</section>
 					<section>
 						<h3>Two authorites</h3>
@@ -291,6 +429,11 @@
 							<p>Against ballot stuffing</p>
 							<p>Against malicious voting terminal</p>
 						</ol>
+
+						<aside class="notes">
+							These will be used firstly to prevent ballot stuffing, quite literally stuffing the ballot at a poll station with fake votes or in the digital sense the server adding votes of fake voters.
+							But also against a malicious voting terminal as it could just submit a vote instead of actually going through vote creation step.
+						</aside>
 					</section>
 					<section>
 						<h3>Registrar</h3>
@@ -299,21 +442,43 @@
 							<li><em>Cast codes</em></li>
 							<li><em>Lock-in code</em></li>
 						</ol>
+
+						<aside class="notes">
+							The registrar sends all voters a sheet with cast codes and one lock-in code before the election.
+							This prevents ballot stuffing because the tallying authority does not know the codes but needs them to submit votes.
+						</aside>
 					</section>
 					<section>
 						<h3>Submitting a vote</h3>
 						<p>Enter <strong>cast code</strong> => ✅? => Enter <strong>lock-in code</strong></p>
+					
+						<aside class="notes">
+							To submit a vote a voter enters one of the cast codes, checks if submitted vote with the cast code is the same, then enters their lock-in code to make their vote final.
+						</aside>
 					</section>
 					<section>
 						<h3>Why ✅?</h3>
 						<p style="color: red;">💻 switches ballot with entered cast code</p>
 						<p class="fragment" style="color: green">Enter lock-in code only if same ballot</p>
+					
+						<aside class="notes">
+							Why the two codes, the check in the middle?
+							The voting terminal could switch the submitted ballot using the cast code the voter entered.
+							To prevent this the voter needs to check that the ballot is the same before entering their lock-in code.
+						</aside>
 					</section>
 					<section>
 						<h3 style="color: #1b91ff">3. Tally</h3>
 						<p><strong>Mix-net</strong> => No change</p>
 						<p><strong>Homomorphic tally</strong> => ZKP's invalid ❌</p>
 						<p class="fragment">Groth-Sahai proofs re-randomizable ✅</p>
+					
+						<aside class="notes">
+							To finally tally the votes on the bulletin board Artemis can either be used with a mix-net or homomorphic tallying.
+							For using a mix-net nothing has to be changed.
+							Homomorphic tallying is more complicated as all the needed zero-knowledge proofs are invalid after re-encrypting the ballot.
+							It is possible however using Groth-Sahai proofs which are re-randomizable with the ciphertext.
+						</aside>
 					</section>
 				</section>
 				<section>
@@ -336,6 +501,12 @@
 								</td>
 							</tr>
 						</table>
+
+						<aside class="notes">
+							Artemis combines PrivApollo and BeleniosRF.
+							The multiple devices and indirection are taken from the PrivApollo protocol and combined with the re-encryption in BeleniosRF which also gives us receipt-freeness.
+							This makes the protocol simpler than either of the two ... .
+						</aside>
 					</section>
 					<section>
 						<h2>Protocol</h2>
@@ -350,6 +521,14 @@
 								<p>Benaloh Challenge</li>
 							</div>
 						</ul>
+
+						<aside class="notes">
+							... which is one the advantages of Artemis.
+							It is secure and private, providing receipt-freeness.
+							More complex election modes are possible as a mix-net and a digital indirection are used.
+							It is easier to implement than both systems as PrivApollo changes the tallying and BeleniosVS uses complex cryptographic primitives. 
+							The Benaloh Challenge is a disadvantage as it circumvents coercion-resistant by allowing a coercer to audit a victim as well as forcing the voter to create their vote multiple times.
+						</aside>
 					</section>
 					<section>
 						<h2>Implementation</h2>
@@ -365,6 +544,13 @@
 								<p>Not finished</p>
 							</div>
 						</ul>
+
+						<aside class="notes">
+							For the implementation it works and is quite simple addition on top of Helios.
+							The Helios code base however is very old which makes the implementation insecure.
+							The encoding of the choices has not been changes which makes the encryption quite slow.
+							The system is not secure at all because the Registrar has not been implemented yet.
+						</aside>
 					</section>
 				</section>
 				<section>
